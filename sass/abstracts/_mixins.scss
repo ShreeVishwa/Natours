@@ -1,0 +1,50 @@
+@mixin clearfix {
+    &::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+}
+
+@mixin absCenter {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+//Media query manager
+/* 
+0 - 600px ---- Phone
+600px - 900px ------- Tablet portrait
+900px - 1200px ------ Tablet landscape
+1200px - 1800px ----- normal styles apply
+1800px+ --- Big desktops
+
+Order of changing is Base + typography > general layout + grid > page layout > components 
+
+*/
+
+
+// The content directive is used to pass an entire block of code into the mixin
+// 1em = 16px. This is the default font size of the browser. The media queries are not affected by the parent font size that we give. No matter what
+// thye always go with the default font size of the browser. Keep that in mind!!
+
+// Implementing a slightly better version than the above
+@mixin respond($breakpoint) {
+    @if $breakpoint == phone {
+        @media (max-width: 37.5em) { @content }; //600px
+    }
+
+    @if $breakpoint == tab-port {
+        @media (max-width: 56.25em) { @content }; //900px
+    }
+
+    @if $breakpoint == tab-land {
+        @media (max-width: 75em) { @content }; //1200px
+    }
+
+    @if $breakpoint == big-desktop {
+        @media (min-width: 112.5em) { @content }; //1800px
+    }
+}
